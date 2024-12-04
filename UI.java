@@ -18,8 +18,8 @@ public class UI extends JFrame{
 	JPanel table;
 	JPanel dealerPanel;
 	JPanel playerPanel;
-	JLabel playerCardLabel[] = new JLabel[6];
-	JLabel dealerCardLabel[] = new JLabel[6];
+	JLabel playerCardLabel[] = new JLabel[11];
+	JLabel dealerCardLabel[] = new JLabel[11];
 	
 	// Message UI
     JTextAreaPlus messageText;
@@ -69,21 +69,20 @@ public class UI extends JFrame{
 		startB.setActionCommand("start");
 		startB.setContentAreaFilled(false);
 		this.add(startB);
-		
+
 		themeB = new JButton("THEME");
 		themeB.setBounds(500,250,200,50);
 		themeB.setBorder(null);
 		themeB.setBackground(null);
-		themeB.setFocusPainted(false);	
+		themeB.setFocusPainted(false);
 		themeB.setForeground(Color.white);
 		themeB.setFont(new Font("Book Antiqua", Font.PLAIN,30));
 		themeB.setVisible(false);
-		themeB.addActionListener(game.aHandler); 
-		themeB.setActionCommand("theme");       
+		themeB.addActionListener(game.aHandler);
+		themeB.setActionCommand("theme");
 		themeB.setContentAreaFilled(false);
 		this.add(themeB);
 		
-
 		exitB = new JButton("EXIT");
 		exitB.setBounds(500,300,200,50);
 		exitB.setBorder(null);
@@ -111,14 +110,14 @@ public class UI extends JFrame{
 		dealerPanel.setBounds(100,120,cardWidth*5,cardHeight);
 		dealerPanel.setBackground(null);
 		dealerPanel.setOpaque(false);
-		dealerPanel.setLayout(new GridLayout(1,5));
+		dealerPanel.setLayout(new GridLayout(1,11));
 		dealerPanel.setVisible(false);
 		this.add(dealerPanel);
 				
 		playerPanel = new JPanel();
 		playerPanel.setBounds(100,370,cardWidth*5,cardHeight);
 		playerPanel.setOpaque(false);
-		playerPanel.setLayout(new GridLayout(1,5));
+		playerPanel.setLayout(new GridLayout(1,11));
 		playerPanel.setVisible(false);
 		this.add(playerPanel);
 

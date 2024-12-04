@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.net.URL;
 import java.util.Random;
+
 import javax.swing.ImageIcon;
 
 public class Game{
@@ -38,8 +39,8 @@ public class Game{
 		
 		ui.titlePanel.setVisible(false);
 		ui.startB.setVisible(false);
-		ui.exitB.setVisible(false);
 		ui.themeB.setVisible(false);
+		ui.exitB.setVisible(false);
 		ui.table.setVisible(true);
 		ui.dealerPanel.setVisible(true);
 		ui.playerPanel.setVisible(true);
@@ -77,7 +78,7 @@ public class Game{
 	}
 	public void dealerDraw() {
 
-		// playSE(aa.cardSound01);
+		playSE(aa.cardSound01);
 		dealerHas++;
 		
 		ImageIcon pickedCard = pickRandomCard(); // pickRandomCard: return an ImageIcon
@@ -96,7 +97,7 @@ public class Game{
 	}
 	public void playerDraw() {
 
-		// playSE(aa.cardSound01);
+		playSE(aa.cardSound01);
 		playerHas++;
 		
 		ImageIcon pickedCard = pickRandomCard();
@@ -145,7 +146,7 @@ public class Game{
 	}
 	public void dealerOpen() {
 		
-		// playSE(aa.cardSound01);
+		playSE(aa.cardSound01);
 		ui.dealerCardLabel[2].setIcon(dealerSecondCard); // Reveal the second card	
 		ui.dealerScore.setText("Dealer: " + dealerTotalValue);	
 		
@@ -189,36 +190,36 @@ public class Game{
 		situation = "checkResult";		
 		
 		if(playerTotalValue > 21) {
-			// playSE(aa.youlost);
+			playSE(aa.youlost);
 			ui.messageText.setTextPlus("You lost!");	
 			gameFinished();
 		}
 		else {		
 			if(playerTotalValue == 21 && dealerHas == 2) { // If player is natural
 				if(dealerTotalValue == 21) {
-					// playSE(aa.draw);
+					playSE(aa.draw);
 					ui.messageText.setTextPlus("Draw!");	
 					gameFinished();
 				}
 				else {
-					// playSE(aa.youwon);
+					playSE(aa.youwon);
 					ui.messageText.setTextPlus("You won!");	
 					gameFinished();
 				}
 			}
 			else { 
 				if(dealerTotalValue < 22 && dealerTotalValue > playerTotalValue) {
-					// playSE(aa.youlost);
+					playSE(aa.youlost);
 					ui.messageText.setTextPlus("You lost!");	
 					gameFinished();
 				}
 				else if(dealerTotalValue == playerTotalValue) {
-					// playSE(aa.draw);
+					playSE(aa.draw);
 					ui.messageText.setTextPlus("Draw!");	
 					gameFinished();
 				}
 				else {
-					// playSE(aa.youwon);
+					playSE(aa.youwon);
 					ui.messageText.setTextPlus("You won!");	
 					gameFinished();
 				}						
@@ -301,14 +302,17 @@ public class Game{
 		ImageIcon pickedCard = null;
 		
 		pickedCardNum = random.nextInt(13)+1;
-		int pickedMark = random.nextInt(4)+1;
-		
-		switch(pickedMark) {
-		case 1: pickedCard = cards.spade[pickedCardNum]; break;
-		case 2: pickedCard = cards.heart[pickedCardNum]; break;
-		case 3: pickedCard = cards.club[pickedCardNum]; break;
-		case 4: pickedCard = cards.diamond[pickedCardNum]; break;
-		}			
+		int pickedMark = random.nextInt(5)+1;
+
+		if(pickedCardNum < 3 && pickedMark == 5) pickedCard = cards.joker[pickedCardNum];
+		else {
+			switch(pickedMark) {
+			case 1: pickedCard = cards.spade[pickedCardNum]; break;
+			case 2: pickedCard = cards.heart[pickedCardNum]; break;
+			case 3: pickedCard = cards.club[pickedCardNum]; break;
+			case 4: pickedCard = cards.diamond[pickedCardNum]; break;
+			}	
+		}		
 		return pickedCard;				
 	}
 	public int checkCardValue() {
