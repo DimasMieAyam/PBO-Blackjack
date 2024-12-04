@@ -12,7 +12,7 @@ public class UI extends JFrame{
 	
 	// Title Screen UI
 	PaintPanel titlePanel;
-	JButton startB,exitB;
+	JButton startB,exitB,themeB;
 	
 	// Table UI
 	JPanel table;
@@ -63,20 +63,34 @@ public class UI extends JFrame{
 		startB.setBackground(null);
 		startB.setFocusPainted(false);
 		startB.setForeground(Color.white);
-		startB.setFont(new Font("Book Antiqua", Font.PLAIN,36));
+		startB.setFont(new Font("Book Antiqua", Font.PLAIN,30));
 		startB.setVisible(false);
 		startB.addActionListener(game.aHandler);
 		startB.setActionCommand("start");
 		startB.setContentAreaFilled(false);
 		this.add(startB);
 		
+		themeB = new JButton("THEME");
+		themeB.setBounds(500,250,200,50);
+		themeB.setBorder(null);
+		themeB.setBackground(null);
+		themeB.setFocusPainted(false);	
+		themeB.setForeground(Color.white);
+		themeB.setFont(new Font("Book Antiqua", Font.PLAIN,30));
+		themeB.setVisible(false);
+		themeB.addActionListener(game.aHandler); 
+		themeB.setActionCommand("theme");       
+		themeB.setContentAreaFilled(false);
+		this.add(themeB);
+		
+
 		exitB = new JButton("EXIT");
-		exitB.setBounds(500,250,200,50);
+		exitB.setBounds(500,300,200,50);
 		exitB.setBorder(null);
 		exitB.setBackground(null);
 		exitB.setFocusPainted(false);
 		exitB.setForeground(Color.white);
-		exitB.setFont(new Font("Book Antiqua", Font.PLAIN,36));
+		exitB.setFont(new Font("Book Antiqua", Font.PLAIN,30));
 		exitB.setVisible(false);
 		exitB.addActionListener(game.aHandler);
 		exitB.setActionCommand("exit");

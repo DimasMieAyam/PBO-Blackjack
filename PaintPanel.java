@@ -65,6 +65,7 @@ public class PaintPanel extends JPanel implements ActionListener{
 			alphaValue = 1;
 			timer.stop();
 			ui.startB.setVisible(true);
+			ui.themeB.setVisible(true);
 			ui.exitB.setVisible(true);
 		}
 		repaint();

@@ -39,6 +39,7 @@ public class Game{
 		ui.titlePanel.setVisible(false);
 		ui.startB.setVisible(false);
 		ui.exitB.setVisible(false);
+		ui.themeB.setVisible(false);
 		ui.table.setVisible(true);
 		ui.dealerPanel.setVisible(true);
 		ui.playerPanel.setVisible(true);
