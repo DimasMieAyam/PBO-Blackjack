@@ -11,31 +11,31 @@ public class Cards {
 
 	public Cards() {
 		
-		front = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu/front.png"));
+		front = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/front.png"));
 
 		// JOKER
 		for(int num=1; num<3; num++) {
-			joker[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu/" + num + "Joker.png"));
+			joker[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "Joker.png"));
 		}
 
 		// SPADE
 		for(int num=1; num<14; num++) {
-			spade[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu/" + num + "S.png"));
+			spade[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "S.png"));
 		}
 		
 		// HEART
 		for(int num=1; num<14; num++) {
-			heart[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu/" + num + "H.png"));
+			heart[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "H.png"));
 		}
 		
 		// CLUB
 		for(int num=1; num<14; num++) {
-			club[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu/" + num + "C.png"));
+			club[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "C.png"));
 		}
 		
 		// DIAMOND
 		for(int num=1; num<14; num++) {
-			diamond[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu/" + num + "D.png"));
+			diamond[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "D.png"));
 		}					
 	}
 }
