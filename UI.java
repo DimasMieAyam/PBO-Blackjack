@@ -39,7 +39,7 @@ public class UI extends JFrame{
 		
 		this.setTitle("SUPER BlACKJACK");
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/background.jpg")).getImage());
-		this.setSize(1200,900);
+		this.setSize(1200,700);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(null);
@@ -58,7 +58,7 @@ public class UI extends JFrame{
 		this.add(titlePanel);
 		
 		startB = new JButton("START");
-		startB.setBounds(500,200,200,50);
+		startB.setBounds(500,450,200,50);
 		startB.setBorder(null);
 		startB.setBackground(null);
 		startB.setFocusPainted(false);
@@ -71,7 +71,7 @@ public class UI extends JFrame{
 		this.add(startB);
 
 		themeB = new JButton("THEME");
-		themeB.setBounds(500,250,200,50);
+		themeB.setBounds(500,500,200,50);
 		themeB.setBorder(null);
 		themeB.setBackground(null);
 		themeB.setFocusPainted(false);
@@ -84,7 +84,7 @@ public class UI extends JFrame{
 		this.add(themeB);
 		
 		exitB = new JButton("EXIT");
-		exitB.setBounds(500,300,200,50);
+		exitB.setBounds(500,550,200,50);
 		exitB.setBorder(null);
 		exitB.setBackground(null);
 		exitB.setFocusPainted(false);
@@ -101,7 +101,7 @@ public class UI extends JFrame{
 	public void createTableUI() {
 		
 		table = new JPanel();
-		table.setBackground(new Color(0,81,0));
+		table.setBackground(new Color(0,81,0));//background table game 
 		table.setBounds(50,50,850,600);
 		table.setLayout(null);
 		table.setVisible(false);
@@ -151,7 +151,7 @@ public class UI extends JFrame{
 		messageText = new JTextAreaPlus();
 		messageText.setBounds(230,680,720,100);
 		messageText.setBackground(null);
-		messageText.setForeground(Color.white);
+		messageText.setForeground(Color.white);//warna teks di bawah
 		messageText.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		messageText.setEditable(false);
 		this.add(messageText);
@@ -165,7 +165,7 @@ public class UI extends JFrame{
 		for(int i = 1; i < 6; i++) {
 			button[i] = new JButton();
 			button[i].setBackground(null);
-			button[i].setForeground(Color.white);
+			button[i].setForeground(Color.white);//tombol hit stand
 			button[i].setFocusPainted(false);
 			button[i].setBorder(null);
 			button[i].setFont(new Font("Times New Roman", Font.PLAIN, 42));

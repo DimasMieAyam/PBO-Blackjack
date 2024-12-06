@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.net.URL;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 
 public class Game{
@@ -46,7 +45,7 @@ public class Game{
 		ui.playerPanel.setVisible(true);
 		ui.messageText.setVisible(true);
 		ui.buttonPanel.setVisible(true);
-		ui.getContentPane().setBackground(Color.black);
+		ui.getContentPane().setBackground(Color.black);//mengatur warna background table
 		
 		playMusic(aa.bgm);
 		

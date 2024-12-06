@@ -52,8 +52,8 @@ public class PaintPanel extends JPanel implements ActionListener{
 		int stringLength = (int)g.getFontMetrics().getStringBounds(text, g).getWidth();
 		int start = this.getWidth()/2 - stringLength/2;
 		
-		g.drawString(text, start, 200);		
-		g.drawImage(titleImage, 280,320,640,280,null);
+		g.drawString(text, start, 100);		
+		g.drawImage(titleImage, 340,180,500,250,null);//untuk mengatur ukuran gambar title
 	}
 	
 	@Override

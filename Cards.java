@@ -1,3 +1,4 @@
+import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Cards {
@@ -10,32 +11,42 @@ public class Cards {
 	ImageIcon diamond[] = new ImageIcon[14];
 
 	public Cards() {
-		
-		front = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/front.png"));
+        // FRONT
+        front = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/front.png")), 150, 213);
 
-		// JOKER
-		for(int num=1; num<3; num++) {
-			joker[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "Joker.png"));
-		}
+        // JOKER
+        for (int num = 1; num < 3; num++) {
+            joker[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "Joker.png")),150, 213);
+        }
 
-		// SPADE
-		for(int num=1; num<14; num++) {
-			spade[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "S.png"));
-		}
-		
-		// HEART
-		for(int num=1; num<14; num++) {
-			heart[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "H.png"));
-		}
-		
-		// CLUB
-		for(int num=1; num<14; num++) {
-			club[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "C.png"));
-		}
-		
-		// DIAMOND
-		for(int num=1; num<14; num++) {
-			diamond[num]  = new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "D.png"));
-		}					
-	}
+        // SPADE
+        for (int num = 1; num < 14; num++) {
+            spade[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "S.png")), 150, 213);
+        }
+
+        // HEART
+        for (int num = 1; num < 14; num++) {
+            heart[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "H.png")), 150, 213);
+        }
+
+        // CLUB
+        for (int num = 1; num < 14; num++) {
+            club[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "C.png")),150, 213);
+        }
+
+        // DIAMOND
+        for (int num = 1; num < 14; num++) {
+            diamond[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "D.png")), 150, 213);
+        }
+    }
+
+    // Method untuk meresize ImageIcon
+    private ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
+        if (icon != null) {
+            Image img = icon.getImage();
+            Image resizedImage = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(resizedImage);
+        }
+        return null;
+    }
 }
