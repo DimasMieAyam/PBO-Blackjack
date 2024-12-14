@@ -9,51 +9,44 @@ public class Cards {
 	ImageIcon club[] = new ImageIcon[15];
 	ImageIcon diamond[] = new ImageIcon[15];
 
+    String cardPath = "res/gambar/kartu2/"; //path kartu, dapat berubah di theme
+
 	public Cards() {
         // FRONT
-        front = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/front.png")), 150, 213);
+        front = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/front.png")), 150, 213);
 
-<<<<<<< HEAD
-        // JOKER
-        for (int num = 1; num < 3; num++) {
-            joker[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "Joker.png")),150, 213);
-        }
+        Thread prepareSpade = new Thread(() -> {
+			// SPADE
+            for (int num = 1; num < 15; num++) {
+                spade[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource(cardPath + num + "S.png")), 150, 213);
+            }
+		});
 
-        // SPADE
-        for (int num = 1; num < 14; num++) {
-=======
-        // SPADE
-        for (int num = 1; num < 15; num++) {
->>>>>>> e0b8cd212595a7422d12fb739be65b674d6344c3
-            spade[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "S.png")), 150, 213);
-        }
+        Thread prepareHeart = new Thread(() -> {
+			// HEART
+            for (int num = 1; num < 15; num++) {
+                heart[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource(cardPath + num + "H.png")), 150, 213);
+            }
+		});
+        
+        Thread prepareClub = new Thread(() -> {
+			// CLUB
+            for (int num = 1; num < 15; num++) {
+                club[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource(cardPath + num + "C.png")),150, 213);
+            }
+		});
 
-        // HEART
-<<<<<<< HEAD
-        for (int num = 1; num < 14; num++) {
-=======
-        for (int num = 1; num < 15; num++) {
->>>>>>> e0b8cd212595a7422d12fb739be65b674d6344c3
-            heart[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "H.png")), 150, 213);
-        }
+        Thread prepareDiamond = new Thread(() -> {
+			// DIAMOND
+            for (int num = 1; num < 15; num++) {
+                diamond[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource(cardPath + num + "D.png")), 150, 213);
+            }
+		});
 
-        // CLUB
-<<<<<<< HEAD
-        for (int num = 1; num < 14; num++) {
-=======
-        for (int num = 1; num < 15; num++) {
->>>>>>> e0b8cd212595a7422d12fb739be65b674d6344c3
-            club[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "C.png")),150, 213);
-        }
-
-        // DIAMOND
-<<<<<<< HEAD
-        for (int num = 1; num < 14; num++) {
-=======
-        for (int num = 1; num < 15; num++) {
->>>>>>> e0b8cd212595a7422d12fb739be65b674d6344c3
-            diamond[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "D.png")), 150, 213);
-        }
+        prepareSpade.start();
+        prepareHeart.start();
+        prepareClub.start();
+        prepareDiamond.start();
     }
 
     // Method untuk meresize ImageIcon
@@ -64,5 +57,40 @@ public class Cards {
             return new ImageIcon(resizedImage);
         }
         return null;
+    }
+
+    public void loadCards() {
+        Thread prepareSpade = new Thread(() -> {
+			// SPADE
+            for (int num = 1; num < 15; num++) {
+                spade[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource(cardPath + num + "S.png")), 150, 213);
+            }
+		});
+
+        Thread prepareHeart = new Thread(() -> {
+			// HEART
+            for (int num = 1; num < 15; num++) {
+                heart[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource(cardPath + num + "H.png")), 150, 213);
+            }
+		});
+        
+        Thread prepareClub = new Thread(() -> {
+			// CLUB
+            for (int num = 1; num < 15; num++) {
+                club[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource(cardPath + num + "C.png")),150, 213);
+            }
+		});
+
+        Thread prepareDiamond = new Thread(() -> {
+			// DIAMOND
+            for (int num = 1; num < 15; num++) {
+                diamond[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource(cardPath + num + "D.png")), 150, 213);
+            }
+		});
+
+        prepareSpade.start();
+        prepareHeart.start();
+        prepareClub.start();
+        prepareDiamond.start();
     }
 }
