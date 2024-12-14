@@ -12,31 +12,31 @@ public class Cards {
 
 	public Cards() {
         // FRONT
-        front = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/front.png")), 150, 213);
+        front = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/front.png")), 150, 213);
 
         // JOKER
         for (int num = 1; num < 3; num++) {
-            joker[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "Joker.png")),150, 213);
+            joker[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "Joker.png")),150, 213);
         }
 
         // SPADE
         for (int num = 1; num < 14; num++) {
-            spade[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "S.png")), 150, 213);
+            spade[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "S.png")), 150, 213);
         }
 
         // HEART
         for (int num = 1; num < 14; num++) {
-            heart[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "H.png")), 150, 213);
+            heart[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "H.png")), 150, 213);
         }
 
         // CLUB
         for (int num = 1; num < 14; num++) {
-            club[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "C.png")),150, 213);
+            club[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "C.png")),150, 213);
         }
 
         // DIAMOND
         for (int num = 1; num < 14; num++) {
-            diamond[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu1/" + num + "D.png")), 150, 213);
+            diamond[num] = resizeIcon(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/kartu2/" + num + "D.png")), 150, 213);
         }
     }
 

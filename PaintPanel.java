@@ -17,6 +17,7 @@ public class PaintPanel extends JPanel implements ActionListener{
 	public Timer timer = new Timer(30,this);
 	float alphaValue = 0f;
 	BufferedImage titleImage;
+	String bgImagePath = "res/gambar/background3.jpg";
 	
 	UI ui;
 	
@@ -25,7 +26,15 @@ public class PaintPanel extends JPanel implements ActionListener{
 		this.ui = ui;
 		
 		try {
-			titleImage = ImageIO.read(getClass().getClassLoader().getResource("res/gambar/background.jpg"));
+			titleImage = ImageIO.read(getClass().getClassLoader().getResource(bgImagePath));
+			
+		}catch(IOException e) {			
+		}		
+	}
+
+	public void loadImage() {
+		try {
+			titleImage = ImageIO.read(getClass().getClassLoader().getResource(bgImagePath));
 			
 		}catch(IOException e) {			
 		}		

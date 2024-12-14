@@ -20,7 +20,7 @@ public class ActionHandler implements ActionListener{
 		switch(command) {
 		case "start":
 			game.titleToGame();
-			break;
+			break;			
 		case "exit":
 			System.exit(0);
 			break;

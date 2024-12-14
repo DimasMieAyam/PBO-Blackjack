@@ -31,6 +31,9 @@ public class UI extends JFrame{
 	
 	int cardWidth = 150;
 	int cardHeight = 213;
+
+	Color bgColor = new Color(0,81,0);
+	String iconImagePath = "res/gambar/kartu1/1C.png";
 	
 	
 	public UI(Game game) {
@@ -38,12 +41,12 @@ public class UI extends JFrame{
 		this.game = game;
 		
 		this.setTitle("SUPER BlACKJACK");
-		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("res/gambar/background.jpg")).getImage());
+		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(iconImagePath)).getImage());
 		this.setSize(1200,700);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(null);
-		this.getContentPane().setBackground(new Color(0,81,0));
+		this.getContentPane().setBackground(bgColor);
 		
 		createTitleScreen();
 		createTableUI();	
@@ -101,7 +104,7 @@ public class UI extends JFrame{
 	public void createTableUI() {
 		
 		table = new JPanel();
-		table.setBackground(new Color(0,81,0));//background table game 
+		table.setBackground(bgColor);//background table game 
 		table.setBounds(50,50,850,600);
 		table.setLayout(null);
 		table.setVisible(false);
@@ -146,10 +149,11 @@ public class UI extends JFrame{
 	
 		this.add(table);
 	}
+	
 	public void createOtherUI() {
 		
 		messageText = new JTextAreaPlus();
-		messageText.setBounds(230,680,720,100);
+		messageText.setBounds(230,650,720,100); // y sebelumnya 680
 		messageText.setBackground(null);
 		messageText.setForeground(Color.white);//warna teks di bawah
 		messageText.setFont(new Font("Times New Roman", Font.PLAIN, 40));
