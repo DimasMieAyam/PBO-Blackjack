@@ -32,7 +32,7 @@ public class UI extends JFrame{
 	int cardWidth = 150;
 	int cardHeight = 213;
 
-	Color bgColor = new Color(0,81,0);
+	Color bgColor = new Color(0,81,0); //warna background, berubah sesuai theme
 	String iconImagePath = "res/gambar/kartu1/1C.png";
 	
 	
@@ -41,7 +41,7 @@ public class UI extends JFrame{
 		this.game = game;
 		
 		this.setTitle("SUPER BlACKJACK");
-		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(iconImagePath)).getImage());
+		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(iconImagePath)).getImage()); //icon game, pojok kiri atas frame
 		this.setSize(1200,700);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,7 +53,7 @@ public class UI extends JFrame{
 		createOtherUI();
 		this.setVisible(true);
 	}
-	public void createTitleScreen() {
+	public void createTitleScreen() { //UI title screen
 			
 		titlePanel = new PaintPanel(this);
 		titlePanel.setBounds(0,0,1200,600);
@@ -101,7 +101,7 @@ public class UI extends JFrame{
 		
 		titlePanel.timer.start();
 	}
-	public void createTableUI() {
+	public void createTableUI() { //UI table (latar hijau/biru di game screen)
 		
 		table = new JPanel();
 		table.setBackground(bgColor);//background table game 
@@ -150,7 +150,7 @@ public class UI extends JFrame{
 		this.add(table);
 	}
 	
-	public void createOtherUI() {
+	public void createOtherUI() { //UI latar belakang game screen, tempat menampilkan tombol dan teks
 		
 		messageText = new JTextAreaPlus();
 		messageText.setBounds(230,650,720,100); // y sebelumnya 680
@@ -169,7 +169,7 @@ public class UI extends JFrame{
 		for(int i = 1; i < 6; i++) {
 			button[i] = new JButton();
 			button[i].setBackground(null);
-			button[i].setForeground(Color.white);//tombol hit stand
+			button[i].setForeground(Color.white); //tombol hit stand
 			button[i].setFocusPainted(false);
 			button[i].setBorder(null);
 			button[i].setFont(new Font("Times New Roman", Font.PLAIN, 42));

@@ -5,10 +5,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//class untuk frame kustomisasi theme
 public class ThemeLayout extends JFrame {
 
-    static Color mainColor = new Color(0, 81, 0);
-    static Color secondColor = new Color(0, 100, 0);
+    static Color mainColor = new Color(0, 81, 0); //warna utama, , berubah sesuai theme
+    static Color secondColor = new Color(0, 100, 0); //warna sekunder, berubah sesuai theme
 
     public ThemeLayout(Game game) {
         initializeUI(game);
@@ -25,19 +26,20 @@ public class ThemeLayout extends JFrame {
         setLayout(new GridLayout(2, 1)); // Menggunakan GridLayout untuk menampilkan bertumpuk
         setLocationRelativeTo(null);
 
-        // Panel pertama
+        // Panel pertama, untuk mengganti deck kartu
         JPanel panel1 = new JPanel(new BorderLayout(1, 1)); // Tambahkan margin antar komponen
         JLabel subTitle1 = new JLabel("DECK", JLabel.CENTER);
         subTitle1.setFont(new Font("Arial", Font.BOLD, 20)); // Perbesar teks subjudul
         subTitle1.setBorder(BorderFactory.createEmptyBorder(13, 0, 5, 0)); // Kurangi jarak subjudul dengan tombol
         subTitle1.setForeground(Color.WHITE);
-        panel1.setBackground(mainColor); // Menambahkan warna hijau RGB 81 ke panel
+        panel1.setBackground(mainColor); 
         panel1.setBorder(BorderFactory.createLineBorder(secondColor, 1)); // Border putih dengan ketebalan 2
         panel1.add(subTitle1, BorderLayout.NORTH);
 
         JPanel buttonPanel1 = new JPanel(new GridLayout(1, 2, 0, 0)); // Tambahkan sedikit jarak horizontal antar tombol
-        buttonPanel1.setBackground(mainColor); // Menambahkan warna hijau RGB 81 ke panel tombol
-
+        buttonPanel1.setBackground(mainColor); 
+        
+        // tombol kartu transparan
         JButton btn1Panel1 = new JButton("Transparan");
         btn1Panel1.setPreferredSize(new Dimension(100, 50)); // Perbesar tombol
         btn1Panel1.setFont(new Font("Arial", Font.BOLD, 18)); // Perbesar teks tombol
@@ -46,6 +48,7 @@ public class ThemeLayout extends JFrame {
         btn1Panel1.setOpaque(true);
         btn1Panel1.setBorder(BorderFactory.createLineBorder(mainColor, 10)); // Tambahkan border
 
+        // tombol kartu klasik
         JButton btn2Panel1 = new JButton("Classic");
         btn2Panel1.setPreferredSize(new Dimension(100, 50)); // Perbesar tombol
         btn2Panel1.setFont(new Font("Arial", Font.BOLD, 18)); // Perbesar teks tombol
@@ -58,8 +61,8 @@ public class ThemeLayout extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    game.cards.cardPath = "res/gambar/kartu1/";
-                    game.cards.loadCards();
+                    game.cards.cardPath = "res/gambar/kartu1/"; //mengganti path
+                    game.cards.loadCards(); //reload kartu
                 } catch (Exception ex) {
                     ex.printStackTrace(); // Menampilkan error jika terjadi masalah
                 }
@@ -69,8 +72,8 @@ public class ThemeLayout extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    game.cards.cardPath = "res/gambar/kartu2/";
-                    game.cards.loadCards();
+                    game.cards.cardPath = "res/gambar/kartu2/"; //mengganti path
+                    game.cards.loadCards(); //reload kartu
                 } catch (Exception ex) {
                     ex.printStackTrace(); // Menampilkan error jika terjadi masalah
                 }
@@ -81,19 +84,20 @@ public class ThemeLayout extends JFrame {
         buttonPanel1.add(btn2Panel1);
         panel1.add(buttonPanel1, BorderLayout.SOUTH);
 
-        // Panel kedua
+        // Panel kedua, mengganti tema warna
         JPanel panel2 = new JPanel(new BorderLayout(1, 1)); // Tambahkan margin antar komponen
         JLabel subTitle2 = new JLabel("BACKGROUND", JLabel.CENTER);
         subTitle2.setFont(new Font("Arial", Font.BOLD, 20)); // Perbesar teks subjudul
         subTitle2.setForeground(Color.WHITE);
         subTitle2.setBorder(BorderFactory.createEmptyBorder(13, 0, 5, 0)); // Kurangi jarak subjudul dengan tombol
-        panel2.setBackground(mainColor); // Menambahkan warna hijau RGB 81 ke panel
+        panel2.setBackground(mainColor);
         panel2.setBorder(BorderFactory.createLineBorder(secondColor, 1)); // Border putih dengan ketebalan 2
         panel2.add(subTitle2, BorderLayout.NORTH);
 
         JPanel buttonPanel2 = new JPanel(new GridLayout(1, 2, 0, 0)); // Tambahkan sedikit jarak horizontal antar tombol
-        buttonPanel2.setBackground(mainColor); // Menambahkan warna hijau RGB 81 ke panel tombol
+        buttonPanel2.setBackground(mainColor);
 
+        //tombol warna hijau
         JButton btn1Panel2 = new JButton("Green");
         btn1Panel2.setPreferredSize(new Dimension(100, 50)); // Perbesar tombol
         btn1Panel2.setFont(new Font("Arial", Font.BOLD, 18)); // Perbesar teks tombol
@@ -102,6 +106,7 @@ public class ThemeLayout extends JFrame {
         btn1Panel2.setOpaque(true);
         btn1Panel2.setBorder(BorderFactory.createLineBorder(mainColor, 10)); // Tambahkan border
 
+        //tombol warna biru
         JButton btn2Panel2 = new JButton("Blue");
         btn2Panel2.setPreferredSize(new Dimension(100, 50)); // Perbesar tombol
         btn2Panel2.setFont(new Font("Arial", Font.BOLD, 18)); // Perbesar teks tombol
@@ -131,7 +136,7 @@ public class ThemeLayout extends JFrame {
                     });	
 
                     updateGUI.start();
-                    reloadFrame(game);
+                    reloadFrame(game); //reload frame theme
 
                 } catch (Exception ex) {
                     ex.printStackTrace(); // Menampilkan error jika terjadi masalah
@@ -159,7 +164,7 @@ public class ThemeLayout extends JFrame {
                     });			
 
                     updateGUI.start();
-                    reloadFrame(game);
+                    reloadFrame(game); //reload frame theme
                     
                 } catch (Exception ex) {
                     ex.printStackTrace(); // Menampilkan error jika terjadi masalah

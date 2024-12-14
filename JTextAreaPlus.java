@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
+//menampilkan pesan teks per huruf 
 public class JTextAreaPlus extends JTextArea implements ActionListener {
     
     private int i = 0;

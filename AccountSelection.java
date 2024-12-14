@@ -4,10 +4,10 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 
-
+// class untuk frame pemilihan player
 public class AccountSelection extends JFrame{
 
-    static Color mainColor = new Color(0, 81, 0);
+    static Color mainColor = new Color(0, 81, 0); // warna berubah sesuai theme
 
     public AccountSelection(Game game) {
         setTitle("Pilihan akun");
@@ -22,7 +22,7 @@ public class AccountSelection extends JFrame{
 
         // Panel utama untuk pilihan akun (New Account, History)
         JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(mainColor); // Set warna hijau
+        mainPanel.setBackground(mainColor);
         mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 0, 10, 0); // Jarak antar tombol
@@ -67,7 +67,7 @@ public class AccountSelection extends JFrame{
                         startGame.start();
                         closeWindow.start();
                     }
-                } else if(DatabaseOperations.playerExist(name)) {
+                } else if(DatabaseOperations.playerExist(name)) { //memastikan tidak ada nama player duplikat
                     JOptionPane.showMessageDialog(AccountSelection.this, "Player with the name \"" + name + "\" already exists", "Error", JOptionPane.ERROR_MESSAGE);
                 } else if(name != null && name.equals("")) {
                     JOptionPane.showMessageDialog(AccountSelection.this, "Name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -85,14 +85,15 @@ public class AccountSelection extends JFrame{
             }
         });
         
-
+    //halaman daftar player
     JPanel loadGamePanel = new JPanel();
-    loadGamePanel.setBackground(mainColor); // Set warna hijau
+    loadGamePanel.setBackground(mainColor);
     loadGamePanel.setLayout(new BoxLayout(loadGamePanel, BoxLayout.Y_AXIS));
 
-    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Layout untuk tombol di kiri
-    buttonPanel.setBackground(mainColor); // Samakan dengan background utama
-
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    buttonPanel.setBackground(mainColor); 
+    
+    // tombol ke halaman sebelumnya
     JButton backButton = new JButton();
     backButton.setPreferredSize(new Dimension(300, 50));
     backButton.setText("BACK");
@@ -111,6 +112,7 @@ public class AccountSelection extends JFrame{
     // Tambahkan panel tombol ke loadGamePanel
     loadGamePanel.add(buttonPanel);
 
+    //loop untuk menampilkan semua pemain
     for (int i = 0; i < DatabaseOperations.getPlayerCount(); i++) {
         Player[] players = DatabaseOperations.getPlayers();
 
@@ -118,7 +120,7 @@ public class AccountSelection extends JFrame{
 
         JPanel userPanel = new JPanel(new GridLayout(2, 2)); // Menambahkan layout grid ke panel
         userPanel.setPreferredSize(new Dimension(350, 100)); // Memperbesar ukuran panel
-        userPanel.setBackground(Color.WHITE); // Set warna kuning agak hijau
+        userPanel.setBackground(Color.WHITE); // Set warna putih
         userPanel.add(new JLabel("Name: " + players[i].getName()));
         userPanel.add(new JLabel("Win: " + players[i].getWin()));
         userPanel.add(new JLabel("Draw: " + players[i].getDraw()));
@@ -131,6 +133,7 @@ public class AccountSelection extends JFrame{
             }
         }
 
+        //tombol pemain
         JButton userButton = new JButton();
         userButton.setPreferredSize(new Dimension(300, 100)); // Memperbesar ukuran tombol
         userButton.add(userPanel);
@@ -150,6 +153,7 @@ public class AccountSelection extends JFrame{
             }
         });
 
+        // tombol hapus pemain
         JButton delButton = new JButton();
         delButton.setPreferredSize(new Dimension(50, 50));
         delButton.setText("DELETE");

@@ -13,8 +13,9 @@ public class Game{
 	AudioAsset aa = new AudioAsset();
 	SE se = new SE();
 	Music music = new Music();
+	Player currPlayer;
 	
-	// CARD STUFF
+	// KARTU
 	int pickedCardNum;	
 	int playerHas = 0;
 	int dealerHas = 0;
@@ -25,112 +26,163 @@ public class Game{
 	int playerTotalValue;
 	int dealerTotalValue;	
 	
-	// OTHERS
+	// LAIN-LAIN
 	String situation = "";
 	ImageIcon dealerSecondCard;
+	Color bgColor = new Color(0,81,0); //berubah sesuai theme
 	
 
 	public static void main(String[] args) {
 		
 		new Game();
 	}	
-	public void titleToGame() {
-		
-		ui.titlePanel.setVisible(false);
-		ui.startB.setVisible(false);
-		ui.themeB.setVisible(false);
-		ui.exitB.setVisible(false);
-		ui.table.setVisible(true);
-		ui.dealerPanel.setVisible(true);
-		ui.playerPanel.setVisible(true);
-		ui.messageText.setVisible(true);
-		ui.buttonPanel.setVisible(true);
-		ui.getContentPane().setBackground(Color.black);//mengatur warna background table
-		
-		playMusic(aa.bgm);
-		
-		startGame();
-	}
-	public void gameToTitle() {
-				
-		ui.titlePanel.setVisible(true);
-		ui.table.setVisible(false);
-		ui.dealerPanel.setVisible(false);
-		ui.playerPanel.setVisible(false);
-		ui.messageText.setVisible(false);
-		ui.buttonPanel.setVisible(false);
-		ui.getContentPane().setBackground(new Color(0,81,0));
-		
-		ui.titlePanel.alphaValue = 0f;
-		ui.titlePanel.timer.start();
-		
-		stopMusic(aa.bgm);
-	}
-	public void startGame() {
-				
-		dealerDraw();
-		playerDraw();
-		dealerDraw();				
-		ui.dealerCardLabel[2].setIcon(cards.front);
-		ui.dealerScore.setText("Dealer: ?");
-		playerTurn();		
-	}
-	public void dealerDraw() {
+	public void titleToGame() { //transisi dari title screen ke game screen
 
-		playSE(aa.cardSound01);
-		dealerHas++;
+		Thread updateGUI = new Thread(() -> { //menyembunyikan elemen title screen dan menampilkan elemen game screen
+			ui.titlePanel.setVisible(false);
+			ui.startB.setVisible(false);
+			ui.themeB.setVisible(false);
+			ui.exitB.setVisible(false);
+			ui.table.setVisible(true);
+			ui.dealerPanel.setVisible(true);
+			ui.playerPanel.setVisible(true);
+			ui.messageText.setVisible(true);
+			ui.buttonPanel.setVisible(true);
+			ui.getContentPane().setBackground(Color.black); //mengatur warna background table
+		});
 		
-		ImageIcon pickedCard = pickRandomCard(); // pickRandomCard: return an ImageIcon
-		if(dealerHas==2) {
-			dealerSecondCard = pickedCard; // Save the second card for revealing it later
+		Thread operateMusic = new Thread(() -> {
+			playMusic(aa.bgm); //memainkan lagu
+		});
+		
+		Thread startGame = new Thread(() -> {
+			resetEverything(); //memulai round, menghapus round sebelumnya jika ada
+		});
+
+		updateGUI.start();
+		operateMusic.start();
+		startGame.start();
+	}
+	public void gameToTitle() { //transisi dari game screen ke title screen
+
+		Thread updateGUI = new Thread(() -> { //menyembunyikan elemen game screen dan menampilkan elemen title screen
+			ui.titlePanel.setVisible(true);
+			ui.table.setVisible(false);
+			ui.dealerPanel.setVisible(false);
+			ui.playerPanel.setVisible(false);
+			ui.messageText.setVisible(false);
+			ui.buttonPanel.setVisible(false);
+			ui.getContentPane().setBackground(bgColor);
+			
+			//memunculkan title screen secara perlahan
+			ui.titlePanel.alphaValue = 0f;
+			ui.titlePanel.timer.start();
+		});
+
+		Thread startGame = new Thread(() -> {
+			removeButtons(); //menyembuyikan tombol-tombol game screen
+		});
+
+		Thread operateMusic = new Thread(() -> {
+			stopMusic(aa.bgm); //menghentikan pemutaran lagu
+		});
+
+		updateGUI.start();
+		operateMusic.start();
+		startGame.start();
+	}
+	public void startGame() { //memulai round
+		
+		//draw 2 kartu pertama untuk dealer dan player, secara berurutan
+
+		// Dealer Draw
+		dealerDraw();
+		try {
+			Thread.sleep(500); // Tunggu 0.5 detik
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 		
-		dealerCardNum[dealerHas] = pickedCardNum; // Register what card the dealer got		
-		dealerCardValue[dealerHas] = checkCardValue();	// Register the card value. If it's from Jack to King, it returns 10
+		// Player Draw
+		playerDraw();
+		try {
+			Thread.sleep(500); // Tunggu 0.5 detik
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	
+		// Dealer Draw dan sembunyikan kartu kedua dealer
+		dealerDraw();
+		ui.dealerCardLabel[2].setIcon(cards.front);
+		ui.dealerScore.setText("Dealer: ?");
+		try {
+			Thread.sleep(500); // Tunggu 0.5 detik
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	
+		// Player Turn
+		playerTurn();		
+	}
+	public void dealerDraw() { //dealer mengambil kartu
+		// System.out.println("dealer draw");
+
+		playSE(aa.cardSound01); //memainkan sound effect kartu 
+		dealerHas++;
+		
+		ImageIcon pickedCard = pickRandomCard(); // pickRandomCard: mengembalikan ImageIcon
+		if(dealerHas==2) {
+			dealerSecondCard = pickedCard; // simpan kartu kedua dealer untuk diperlihatkan nanti
+		}
+		
+		dealerCardNum[dealerHas] = pickedCardNum; // simpan kartu yang didapat		
+		dealerCardValue[dealerHas] = checkCardValue();	// simpan nilai kartu yang didapat
 		
 		ui.dealerCardLabel[dealerHas].setVisible(true);	
-		ui.dealerCardLabel[dealerHas].setIcon(pickedCard);	// Display the card
+		ui.dealerCardLabel[dealerHas].setIcon(pickedCard);	// menampilkan kartu
 		
-		dealerTotalValue = dealerTotalValue();
+		dealerTotalValue = dealerTotalValue(); //nilai total kartu dealer
 		ui.dealerScore.setText("Dealer: " + dealerTotalValue);	
 	}
-	public void playerDraw() {
+	public void playerDraw() { //player mengambil kartu
+		// System.out.println("player draw");
 
-		playSE(aa.cardSound01);
+		playSE(aa.cardSound01); //memainkan sound effect kartu
 		playerHas++;
 		
 		ImageIcon pickedCard = pickRandomCard();
 				
-		playerCardNum[playerHas] = pickedCardNum;		
-		playerCardValue[playerHas] = checkCardValue();	
+		playerCardNum[playerHas] = pickedCardNum; // simpan kartu yang didapat
+		playerCardValue[playerHas] = checkCardValue();	// simpan nilai kartu yang didapat
 		
 		ui.playerCardLabel[playerHas].setVisible(true);
-		ui.playerCardLabel[playerHas].setIcon(pickedCard);
+		ui.playerCardLabel[playerHas].setIcon(pickedCard); // menampilkan kartu
 		
-		playerTotalValue = playerTotalValue();	// Count total player card value	
+		playerTotalValue = playerTotalValue();	//nilai total kartu player	
 		ui.playerScore.setText("You: " + playerTotalValue);
 	}	
-	public void playerTurn() {
+
+	public void playerTurn() { //giliran player, bisa memilih hit atau stand
 		
 		situation = "playerTurn";
 
-		playerDraw(); // Hit a card
+		playerDraw(); // ambil kartu
 								
-		if(playerTotalValue > 21) { // If the total value surpassed 21, the game is over
+		if(playerTotalValue > 21) { // kalau nilai total > 21, giliran player selesai
 			dealerOpen();
 		}
-		else if(playerTotalValue == 21 && playerHas == 2) {
+		else if(playerTotalValue == 21 && playerHas == 2) { //mendapat "natural", 2 kartu pertama berupa AS dan 10/J/Q/K
 			playerNatural();
 		}
 		else {					
-			if(playerHas > 1 && playerHas < 5) { // If the total value is less than 22 and has 4 or less cards, you can still hit
+			if(playerHas > 1 && playerHas < 5) { // jika nilai total < 21 dan kartu yang diambil < 5, masih boleh hit
 				ui.messageText.setTextPlus("Do you want to hit one more card?");
 				ui.button[1].setVisible(true);
 				ui.button[1].setText("Hit");
 				ui.button[2].setVisible(true);
 				ui.button[2].setText("Stand");	
 			}
-			if(playerHas == 5) { // If the player has 5 cards, the player's turn is over
+			if(playerHas == 5) { // jika kartu yang diambil sudah 5, giliran player selesai
 				dealerOpen();
 			}
 		}		
@@ -144,28 +196,29 @@ public class Game{
 		ui.button[1].setText("Continue");
 	}
 	public void dealerOpen() {
+		// System.out.println("dealer open");
 		
 		playSE(aa.cardSound01);
-		ui.dealerCardLabel[2].setIcon(dealerSecondCard); // Reveal the second card	
+		ui.dealerCardLabel[2].setIcon(dealerSecondCard); // tampilkan kartu kedua dealer	
 		ui.dealerScore.setText("Dealer: " + dealerTotalValue);	
 		
-		if(playerHas == 2 && playerTotalValue == 21) { // If player got natural
+		if(playerHas == 2 && playerTotalValue == 21) { // jika player mendapat "natural"
 			checkResult();
 		}
-		else if(dealerTotalValue < 17 && playerTotalValue <= 21) {
+		else if(dealerTotalValue < 17 && playerTotalValue <= 21) { // jika nilai total dealer < 17 dan total nilai player < 22, dealer ambil kartu
 			dealerTurnContinue();
 		}
 		else {
 			checkResult();
 		}	
 	}
-	public void dealerTurn() {
+	public void dealerTurn() { // giliran dealer
 						
-		if(dealerTotalValue < 17) { // If it's less than 17, the dealer must hit one more card
+		if(dealerTotalValue < 17) { // jika total nilai kartu dealer < 17, dealer tetap ambil kartu
 			
 			dealerDraw();
 			
-			if(dealerHas == 5 || dealerTotalValue >= 17) { // If the player has 5 cards, the player's turn is over
+			if(dealerHas == 5 || dealerTotalValue >= 17) { //jika kartu yang diambil dealer sudah 5, atau nilai total > 16, giliran dealer selesai
 				checkResult();
 			}
 			else {
@@ -184,48 +237,54 @@ public class Game{
 		ui.button[1].setVisible(true);
 		ui.button[1].setText("Continue");
 	}
-	public void checkResult() {
+	public void checkResult() { //cek hasil round
 		
 		situation = "checkResult";		
 		
-		if(playerTotalValue > 21) {
+		if(playerTotalValue > 21) { //jika total nilai kartu player > 21, player kalah
 			playSE(aa.youlost);
 			ui.messageText.setTextPlus("You lost!");	
+			currPlayer.addLose();
 			gameFinished();
 		}
 		else {		
-			if(playerTotalValue == 21 && dealerHas == 2) { // If player is natural
-				if(dealerTotalValue == 21) {
+			if(playerTotalValue == 21 && dealerHas == 2) { // kasus saat player mendapat "natural"
+				if(dealerTotalValue == 21) { //jika dealer juga menadapat total nilai 21, hasil seri
 					playSE(aa.draw);
-					ui.messageText.setTextPlus("Draw!");	
+					ui.messageText.setTextPlus("Draw!");
+					currPlayer.addDraw();	
 					gameFinished();
 				}
-				else {
+				else { //player menang
 					playSE(aa.youwon);
-					ui.messageText.setTextPlus("You won!");	
+					ui.messageText.setTextPlus("You won!");
+					currPlayer.addWin();	
 					gameFinished();
 				}
 			}
 			else { 
-				if(dealerTotalValue < 22 && dealerTotalValue > playerTotalValue) {
+				if(dealerTotalValue < 22 && dealerTotalValue > playerTotalValue) { //total nilai kartu dealer > player, dan < 22, player kalah
 					playSE(aa.youlost);
-					ui.messageText.setTextPlus("You lost!");	
+					ui.messageText.setTextPlus("You lost!");
+					currPlayer.addLose();	
 					gameFinished();
 				}
-				else if(dealerTotalValue == playerTotalValue) {
+				else if(dealerTotalValue == playerTotalValue) { // total nilai kartu kedua pihak sama, hasil seri
 					playSE(aa.draw);
-					ui.messageText.setTextPlus("Draw!");	
+					ui.messageText.setTextPlus("Draw!");
+					currPlayer.addDraw();	
 					gameFinished();
 				}
-				else {
+				else { ////total nilai kartu dealer < player, dan < 22, player menang
 					playSE(aa.youwon);
-					ui.messageText.setTextPlus("You won!");	
+					ui.messageText.setTextPlus("You won!");
+					currPlayer.addWin();	
 					gameFinished();
 				}						
 			}
 		}
 	}
-	public void gameFinished() {
+	public void gameFinished() { //round selesai
 
 		situation = "gameFinished";		
 		ui.button[1].setVisible(true);
@@ -233,7 +292,7 @@ public class Game{
 		ui.button[2].setVisible(true);		
 		ui.button[2].setText("Quit");
 	}
-	public void resetEverything() {
+	public void resetEverything() { //reset semua kartu yang sudah diambil oleh dealer dan player, mengosongkan table
 
 		for(int i=1; i < 6; i++ ){
 			ui.playerCardLabel[i].setVisible(false);
@@ -248,10 +307,13 @@ public class Game{
 		playerHas=0;		
 		dealerHas=0;
 		
-		removeButtons();			
-		startGame();
+		removeButtons();
+		Thread startGame = new Thread(() -> {
+			startGame();
+		});			
+		startGame.start();
 	}
-	public int playerTotalValue() {
+	public int playerTotalValue() { //menghitung total nilai kartu player
 		
 		playerTotalValue = playerCardValue[1] + playerCardValue[2] + playerCardValue[3] + playerCardValue[4] + playerCardValue[5];
 
@@ -262,18 +324,18 @@ public class Game{
 			}
 		}
 		
-		if(playerTotalValue < 21 && jokerCount == 2) {
+		if(playerTotalValue < 21 && jokerCount == 2) { //jika ada 2 joker, sesuaikan nilai joker kedua agar total menjadi 21
 			adjustPlayerJokerValue(jokerCount);
 		}
 
-		if(playerTotalValue > 21) {
+		if(playerTotalValue > 21) { //jika total nilai > 21, kurangi nilai kartu AS menjadi 1
 			adjustPlayerAceValue();
 		}
 
 		playerTotalValue = playerCardValue[1] + playerCardValue[2] + playerCardValue[3] + playerCardValue[4] + playerCardValue[5];	
 		return playerTotalValue;
 	}
-	public int dealerTotalValue() {
+	public int dealerTotalValue() { //menghitung total nilai kartu dealer
 		
 		dealerTotalValue = dealerCardValue[1] + dealerCardValue[2] + dealerCardValue[3] + dealerCardValue[4] + dealerCardValue[5];
 		
@@ -284,11 +346,11 @@ public class Game{
 			}
 		}
 
-		if(dealerTotalValue < 21 && jokerCount == 2) {
+		if(dealerTotalValue < 21 && jokerCount == 2) { //jika ada 2 joker, sesuaikan nilai joker kedua agar total menjadi 21
 			adjustDealerJokerValue(jokerCount);
 		}
 
-		if(dealerTotalValue > 21) {
+		if(dealerTotalValue > 21) { //jika total nilai > 21, kurangi nilai kartu AS menjadi 1
 			adjustDealerAceValue();
 		}
 
@@ -356,7 +418,7 @@ public class Game{
 		}
 	}
 	// Fungsi untuk menemukan semua indeks joker
-	private int[] findAllJokerIndexes(String player) {
+	private int[] findAllJokerIndexes(String player) { //mencari lokasi 2 joker
 		int[] indexes = new int[2];
 		int count = 0;
 		if(player.equals("player")) {
@@ -376,7 +438,7 @@ public class Game{
 		return indexes;
 	}
 
-	public ImageIcon pickRandomCard() {
+	public ImageIcon pickRandomCard() { //method untuk mengambil kartu random
 		
 		ImageIcon pickedCard = null;
 		
@@ -391,16 +453,17 @@ public class Game{
 		}			
 		return pickedCard;				
 	}
-	public int checkCardValue() {
-		
+	public int checkCardValue() { //menyesuaikan nilai kartu
+		//nilai kartu secara default mengikuti indeks array kartu (1 - 14)
+
 		int cardValue = pickedCardNum;
-		if(pickedCardNum==1) {
+		if(pickedCardNum==1) {  //menyesuaikan nilai default kartu AS menjadi 11
 			cardValue=11;
 		}
-		if(pickedCardNum>10) {
+		if(pickedCardNum>10) { //menyesuaikan nilai J/Q/K menjadi 10
 			cardValue=10;
 		}
-		if(pickedCardNum==14) {
+		if(pickedCardNum==14) { // menyesuaikan nilai default kartu JOKER menjadi 0
 			cardValue=0;
 		}
 		return cardValue;		
@@ -426,6 +489,14 @@ public class Game{
 	}
 	public void stopMusic(URL url) {
 		
-		music.stop(url);
+		if(music.clip != null) music.stop(url);
+	}
+
+	public void changeTheme() { //menampilkan frame theme
+		new ThemeLayout(this);
+	}
+
+	public void choosePlayer() { //menampilkan frame player selection
+		new AccountSelection(this);
 	}
 }

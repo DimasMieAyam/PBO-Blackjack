@@ -12,12 +12,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+//Untuk menampilkan title screen yang muncul secara perlahan
 public class PaintPanel extends JPanel implements ActionListener{
 	
 	public Timer timer = new Timer(30,this);
 	float alphaValue = 0f;
 	BufferedImage titleImage;
-	String bgImagePath = "res/gambar/background3.jpg";
+	String bgImagePath = "res/gambar/background3.jpg"; //gambar title screen, dapat berubah di theme
 	
 	UI ui;
 	
@@ -26,7 +27,7 @@ public class PaintPanel extends JPanel implements ActionListener{
 		this.ui = ui;
 		
 		try {
-			titleImage = ImageIO.read(getClass().getClassLoader().getResource(bgImagePath));
+			titleImage = ImageIO.read(getClass().getClassLoader().getResource(bgImagePath)); //gambar yang ada di title screen
 			
 		}catch(IOException e) {			
 		}		
@@ -34,7 +35,7 @@ public class PaintPanel extends JPanel implements ActionListener{
 
 	public void loadImage() {
 		try {
-			titleImage = ImageIO.read(getClass().getClassLoader().getResource(bgImagePath));
+			titleImage = ImageIO.read(getClass().getClassLoader().getResource(bgImagePath)); //gambar yang ada di title screen
 			
 		}catch(IOException e) {			
 		}		
