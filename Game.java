@@ -254,10 +254,22 @@ public class Game{
 	public int playerTotalValue() {
 		
 		playerTotalValue = playerCardValue[1] + playerCardValue[2] + playerCardValue[3] + playerCardValue[4] + playerCardValue[5];
+
+		int jokerCount = 0;
+		for (int i = 1; i < 6; i++) {
+			if (playerCardNum[i] == 14) { // Jika kartu adalah joker
+				jokerCount++;
+			}
+		}
 		
+		if(playerTotalValue < 21 && jokerCount == 2) {
+			adjustPlayerJokerValue(jokerCount);
+		}
+
 		if(playerTotalValue > 21) {
 			adjustPlayerAceValue();
 		}
+
 		playerTotalValue = playerCardValue[1] + playerCardValue[2] + playerCardValue[3] + playerCardValue[4] + playerCardValue[5];	
 		return playerTotalValue;
 	}
@@ -265,10 +277,22 @@ public class Game{
 		
 		dealerTotalValue = dealerCardValue[1] + dealerCardValue[2] + dealerCardValue[3] + dealerCardValue[4] + dealerCardValue[5];
 		
+		int jokerCount = 0;
+		for (int i = 1; i < 6; i++) {
+			if (dealerCardNum[i] == 14) { // Jika kartu adalah joker
+				jokerCount++;
+			}
+		}
+
+		if(dealerTotalValue < 21 && jokerCount == 2) {
+			adjustDealerJokerValue(jokerCount);
+		}
+
 		if(dealerTotalValue > 21) {
 			adjustDealerAceValue();
 		}
-		dealerTotalValue = dealerCardValue[1] + dealerCardValue[2] + dealerCardValue[3] + dealerCardValue[4] + dealerCardValue[5];	
+
+		dealerTotalValue = dealerCardValue[1] + dealerCardValue[2] + dealerCardValue[3] + dealerCardValue[4] + dealerCardValue[5];
 		return dealerTotalValue;
 	}
 	public void adjustPlayerAceValue() {
@@ -283,6 +307,24 @@ public class Game{
 			}
 		}
 	}
+	public void adjustPlayerJokerValue(int jokerCount) {
+		int totalValueWithoutJoker = 0; // Total nilai kartu selain joker
+	
+		// Hitung total nilai kartu non-joker
+		for (int i = 1; i < 6; i++) {
+			if (playerCardNum[i] != 14) { // Hanya hitung kartu bukan joker
+				totalValueWithoutJoker += playerCardValue[i];
+			}
+		}
+	
+		if (jokerCount == 2) {
+			// Jika ada 2 joker, sesuaikan nilai joker kedua agar total menjadi 21
+			int[] jokerIndexes = findAllJokerIndexes("player");
+			playerCardValue[jokerIndexes[0]] = 0; // Joker pertama tetap 0
+			int joker2Value = 21 - totalValueWithoutJoker;
+			playerCardValue[jokerIndexes[1]] = Math.max(0, joker2Value); // Pastikan nilai tidak negatif
+		}
+	}
 	public void adjustDealerAceValue() {
 		
 		for(int i=1; i<6; i++) {
@@ -295,23 +337,58 @@ public class Game{
 			}
 		}
 	}
+	public void adjustDealerJokerValue(int jokerCount) {
+		int totalValueWithoutJoker = 0; // Total nilai kartu selain joker
+	
+		// Hitung total nilai kartu non-joker
+		for (int i = 1; i < 6; i++) {
+			if (dealerCardNum[i] != 14) { // Hanya hitung kartu bukan joker
+				totalValueWithoutJoker += dealerCardValue[i];
+			}
+		}
+	
+		if (jokerCount == 2) {
+			// Jika ada 2 joker, sesuaikan nilai joker kedua agar total menjadi 21
+			int[] jokerIndexes = findAllJokerIndexes("dealer");
+			dealerCardValue[jokerIndexes[0]] = 0; // Joker pertama tetap 0
+			int joker2Value = 21 - totalValueWithoutJoker;
+			dealerCardValue[jokerIndexes[1]] = Math.max(0, joker2Value); // Pastikan nilai tidak negatif
+		}
+	}
+	// Fungsi untuk menemukan semua indeks joker
+	private int[] findAllJokerIndexes(String player) {
+		int[] indexes = new int[2];
+		int count = 0;
+		if(player.equals("player")) {
+			for (int i = 1; i < 6; i++) {
+				if (playerCardNum[i] == 14 && count < 2) {
+					indexes[count++] = i;
+				}
+			}
+		}
+		else {
+			for (int i = 1; i < 6; i++) {
+				if (dealerCardNum[i] == 14 && count < 2) {
+					indexes[count++] = i;
+				}
+			}
+		}
+		return indexes;
+	}
 
 	public ImageIcon pickRandomCard() {
 		
 		ImageIcon pickedCard = null;
 		
-		pickedCardNum = random.nextInt(13)+1;
-		int pickedMark = random.nextInt(5)+1;
-
-		if(pickedCardNum < 3 && pickedMark == 5) pickedCard = cards.joker[pickedCardNum];
-		else {
-			switch(pickedMark) {
-			case 1: pickedCard = cards.spade[pickedCardNum]; break;
-			case 2: pickedCard = cards.heart[pickedCardNum]; break;
-			case 3: pickedCard = cards.club[pickedCardNum]; break;
-			case 4: pickedCard = cards.diamond[pickedCardNum]; break;
-			}	
-		}		
+		pickedCardNum = random.nextInt(14)+1;
+		int pickedMark = random.nextInt(4)+1;
+		
+		switch(pickedMark) {
+		case 1: pickedCard = cards.spade[pickedCardNum]; break;
+		case 2: pickedCard = cards.heart[pickedCardNum]; break;
+		case 3: pickedCard = cards.club[pickedCardNum]; break;
+		case 4: pickedCard = cards.diamond[pickedCardNum]; break;
+		}			
 		return pickedCard;				
 	}
 	public int checkCardValue() {
@@ -322,6 +399,9 @@ public class Game{
 		}
 		if(pickedCardNum>10) {
 			cardValue=10;
+		}
+		if(pickedCardNum==14) {
+			cardValue=0;
 		}
 		return cardValue;		
 	}
